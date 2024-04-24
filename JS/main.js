@@ -11,26 +11,31 @@ const input = document.querySelector(".main-input-container");
 let score;
 
 // using case for selecting difficulty options
-const setDifficulty = function () {
-  const selectedOption = selectorBox.value;
+const setDifficulty = function (selectedOption) {
+  let status = false;
   switch (selectedOption) {
-    case "1":
+    case "easy":
       score = 5;
       message.textContent = "Easy Mode: You have 5 attempts.";
+      status = true;
       break;
-    case "2":
+    case "medium":
       score = 3;
       message.textContent = "Medium Mode: You have 3 attempts.";
+      status = true;
       break;
-    case "3":
+    case "hard":
       score = 2;
       message.textContent = "Hard Mode: You have 2 attempts.";
+      status = true;
       break;
     default:
       console.log("Wrong Selection!!!");
   }
   // Update displayed score
   document.querySelector(".countNumber").textContent = score;
+
+  return status;
 };
 
 // Adding functions in variables
@@ -97,14 +102,25 @@ document
   .querySelector(".custom-submit")
   .addEventListener("click", determineTheRigthNumber);
 
-selectBtn.addEventListener("click", lockElements);
-selectBtn.addEventListener("click", unlockElements);
+// selectBtn.addEventListener("click", lockElements);
+// selectBtn.addEventListener("click", unlockElements);
 
 // Event listener for button click
+// Click event for Start Game button
 selectBtn.addEventListener("click", function () {
-  lockElements(); // Hide welcome message and selector
-  unlockElements(); // Show game elements
-  setDifficulty(); // Set difficulty based on selected option
+  // 1. Set difficulty based on selected option
+  // 2. Hide welcome message and selector
+  // 3. Show game elements
+  const selectedOption = selectorBox.value;
+  if (setDifficulty(selectedOption)) {
+    unlockElements();
+    lockElements();
+  } else {
+    console.log("Choose a difficulty!");
+    console.log(this);
+    this.classList.add("bg-red");
+    document.querySelector(".custom-select").classList.add("bg-danger");
+  }
 });
 
 //////  I didnt Understand!!!  /////
@@ -138,3 +154,5 @@ selectBtn.addEventListener("click", function () {
 //   document.querySelector(".hard-option");
 //   score = 2;
 // };
+
+// class.addEventListener("click", options("easy"));
